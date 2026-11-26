@@ -172,4 +172,7 @@ export interface AiAssistantResponse {
   suggestedArticleIds: string[];
   shouldBook: boolean;
   recommendedMode?: ConsultationMode;
+  isMedicalQuestion?: boolean;
+  doctorAdviceNote?: string;
 }
+

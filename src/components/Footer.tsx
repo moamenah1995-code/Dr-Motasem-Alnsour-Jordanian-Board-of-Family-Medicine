@@ -1,6 +1,18 @@
-import {Mail, MapPin, MessageCircle, Phone} from 'lucide-react';
+import {IdCard, Instagram, Mail, MapPin, MessageCircle, Phone, Youtube} from 'lucide-react';
+import {
+  CLINIC_DIRECT_PHONE,
+  CLINIC_EMAIL,
+  CLINIC_KSA_WHATSAPP_URL,
+  CLINIC_WHATSAPP_URL,
+  DOCTOR_BUSINESS_CARD_URL,
+  DOCTOR_INSTAGRAM_URL,
+  DOCTOR_PORTRAIT_PATH,
+  DOCTOR_TIKTOK_URL,
+  DOCTOR_YOUTUBE_URL,
+} from '../data/doctorChatKnowledge';
 import {UI_COPY} from '../data/translations';
 import type {Lang, PageId} from '../types/medical';
+import {TikTokIcon} from './SocialIcons';
 
 interface FooterProps {
   lang: Lang;
@@ -16,7 +28,20 @@ export function Footer({lang, onNavigate, onToggleLang}: FooterProps) {
       <div className="mx-auto max-w-[1200px] px-4 py-14 sm:px-6">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
           <div className="md:col-span-2">
-            <div className="font-display text-xl font-bold text-[#0B3C5D]">{t.brandName}</div>
+            <div className="flex items-center gap-3.5">
+              <img
+                src={DOCTOR_PORTRAIT_PATH}
+                alt={t.brandName}
+                referrerPolicy="no-referrer"
+                className="h-14 w-14 shrink-0 rounded-xl border border-slate-200 object-cover object-top"
+              />
+              <div>
+                <div className="font-display text-xl font-bold text-[#0B3C5D]">{t.brandName}</div>
+                <div className="mt-0.5 text-xs text-slate-500">
+                  {lang === 'ar' ? 'أخصائي أول طب الأسرة · البورد الأردني' : 'Senior Specialist in Family Medicine · Jordanian Board'}
+                </div>
+              </div>
+            </div>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-slate-600">{t.footer.aboutLine}</p>
             <div className="mt-5 flex flex-wrap items-center gap-4 text-xs text-slate-500">
               <span>{lang === 'ar' ? 'البورد الأردني في طب الأسرة' : 'Jordanian Board of Family Medicine'}</span>
@@ -73,29 +98,87 @@ export function Footer({lang, onNavigate, onToggleLang}: FooterProps) {
             <h3 className="font-display text-sm font-semibold text-slate-900">{t.footer.contactTitle}</h3>
             <ul className="mt-3 space-y-2.5 text-sm">
               <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4 shrink-0 text-[#0B3C5D]" />
-                <a href="tel:+966570117358" dir="ltr" className="font-mono-num hover:text-[#0B3C5D]">
-                  +966 57 011 7358
+                <MessageCircle className="h-4 w-4 shrink-0 text-emerald-700" />
+                <a
+                  href={CLINIC_KSA_WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#0B3C5D]"
+                >
+                  {lang === 'ar' ? 'واتساب السعودية' : 'Saudi WhatsApp'}{' '}
+                  <span dir="ltr" className="font-mono-num text-xs text-slate-500">
+                    (+966570117358)
+                  </span>
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <MessageCircle className="h-4 w-4 shrink-0 text-emerald-700" />
                 <a
-                  href="https://wa.me/962785483349"
+                  href={CLINIC_WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-[#0B3C5D]"
                 >
-                  {lang === 'ar' ? 'واتساب العيادة المباشر' : 'Direct Clinic WhatsApp'}{' '}
+                  {lang === 'ar' ? 'واتساب الأردن' : 'Jordan WhatsApp'}{' '}
                   <span dir="ltr" className="font-mono-num text-xs text-slate-500">
-                    (+962 78 548 3349)
+                    (+962785483349)
                   </span>
                 </a>
               </li>
               <li className="flex items-center gap-2">
+                <Phone className="h-4 w-4 shrink-0 text-[#0B3C5D]" />
+                <a href={`tel:${CLINIC_DIRECT_PHONE}`} dir="ltr" className="font-mono-num hover:text-[#0B3C5D]">
+                  +966 57 011 7358
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 shrink-0 text-[#0B3C5D]" />
-                <a href="mailto:dr.motasem.alnsour@gmail.com" className="break-all hover:text-[#0B3C5D]">
-                  dr.motasem.alnsour@gmail.com
+                <a href={`mailto:${CLINIC_EMAIL}`} className="break-all hover:text-[#0B3C5D]">
+                  {CLINIC_EMAIL}
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Youtube className="h-4 w-4 shrink-0 text-rose-600" />
+                <a
+                  href={DOCTOR_YOUTUBE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-rose-700 hover:underline"
+                >
+                  {lang === 'ar' ? 'قناة اليوتيوب الطبية' : 'Official YouTube Channel'}
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Instagram className="h-4 w-4 shrink-0 text-pink-700" />
+                <a
+                  href={DOCTOR_INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-pink-700 hover:underline"
+                >
+                  {lang === 'ar' ? 'حساب إنستغرام الطبي' : 'Official Instagram'}
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <TikTokIcon className="h-4 w-4 shrink-0 text-slate-800" />
+                <a
+                  href={DOCTOR_TIKTOK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-slate-800 hover:underline"
+                >
+                  {lang === 'ar' ? 'حساب تيك توك الطبي' : 'Official TikTok'}
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <IdCard className="h-4 w-4 shrink-0 text-[#0369A1]" />
+                <a
+                  href={DOCTOR_BUSINESS_CARD_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-[#0B3C5D] hover:underline"
+                >
+                  {lang === 'ar' ? 'بطاقة الطبيب الرقمية (HiHello)' : 'Digital Business Card (HiHello)'}
                 </a>
               </li>
             </ul>

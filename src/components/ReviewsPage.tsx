@@ -18,7 +18,7 @@ export function ReviewsPage({lang, onStartBooking}: ReviewsPageProps) {
 
   const [patientName, setPatientName] = useState('');
   const [location, setLocation] = useState('');
-  const [consultationType, setConsultationType] = useState<ConsultationMode>('riyadh');
+  const [consultationType, setConsultationType] = useState<ConsultationMode>('online');
   const [serviceId, setServiceId] = useState(MEDICAL_SERVICES[0].id);
   const [visitDate, setVisitDate] = useState(new Date().toISOString().slice(0, 10));
   const [bookingRef, setBookingRef] = useState('');
@@ -250,9 +250,7 @@ export function ReviewsPage({lang, onStartBooking}: ReviewsPageProps) {
                 onChange={(e) => setConsultationType(e.target.value as ConsultationMode)}
                 className="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm"
               >
-                <option value="riyadh">{lang === 'ar' ? 'عيادة الرياض — السعودية' : 'Riyadh Clinic — KSA'}</option>
-                <option value="jordan">{lang === 'ar' ? 'عيادة عمّان — الأردن' : 'Amman Clinic — Jordan'}</option>
-                <option value="online">{lang === 'ar' ? 'استشارة طبية عن بعد (أونلاين)' : 'Online Telehealth'}</option>
+                <option value="online">{lang === 'ar' ? 'استشارة طبية عن بعد (أونلاين)' : 'Online Telehealth Consultation'}</option>
               </select>
             </div>
 

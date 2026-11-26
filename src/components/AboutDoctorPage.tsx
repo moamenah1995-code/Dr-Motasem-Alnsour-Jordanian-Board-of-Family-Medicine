@@ -1,6 +1,27 @@
-import {Award, Building2, Calendar, CheckCircle2, GraduationCap, ShieldCheck} from 'lucide-react';
+import {
+  Award,
+  Building2,
+  Calendar,
+  CheckCircle2,
+  GraduationCap,
+  IdCard,
+  Instagram,
+  MessageCircle,
+  ShieldCheck,
+  Youtube,
+} from 'lucide-react';
+import {
+  CLINIC_KSA_WHATSAPP_URL,
+  CLINIC_WHATSAPP_URL,
+  DOCTOR_BUSINESS_CARD_URL,
+  DOCTOR_INSTAGRAM_URL,
+  DOCTOR_PORTRAIT_PATH,
+  DOCTOR_TIKTOK_URL,
+  DOCTOR_YOUTUBE_URL,
+} from '../data/doctorChatKnowledge';
 import {UI_COPY} from '../data/translations';
 import type {Lang, PageId} from '../types/medical';
+import {TikTokIcon} from './SocialIcons';
 
 interface AboutDoctorPageProps {
   lang: Lang;
@@ -33,8 +54,17 @@ export function AboutDoctorPage({lang, onNavigate}: AboutDoctorPageProps) {
               className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-[#0B3C5D] px-5 py-3 text-sm font-semibold text-white hover:bg-[#082c44]"
             >
               <Calendar className="h-4 w-4" />
-              <span>{lang === 'ar' ? 'احجز استشارة مع د. معتصم' : 'Book Consultation with Dr. Motasem'}</span>
+              <span>{lang === 'ar' ? 'احجز استشارة أونلاين' : 'Book Online Consultation'}</span>
             </button>
+            <a
+              href={CLINIC_KSA_WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg border border-emerald-700/30 bg-emerald-50/70 px-4 py-3 text-sm font-semibold text-emerald-900 hover:bg-emerald-100/70"
+            >
+              <MessageCircle className="h-4 w-4 text-emerald-700" />
+              <span>{lang === 'ar' ? 'واتساب السعودية (+966570117358)' : 'KSA WhatsApp (+966570117358)'}</span>
+            </a>
             <button
               type="button"
               onClick={() => onNavigate('services')}
@@ -46,12 +76,12 @@ export function AboutDoctorPage({lang, onNavigate}: AboutDoctorPageProps) {
         </div>
 
         <div className="lg:col-span-5">
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <img
-              src="/assets/aistudio/___________ecefce18.png"
+              src={DOCTOR_PORTRAIT_PATH}
               alt={lang === 'ar' ? 'د. معتصم النسور' : 'Dr. Motasem Alnsour'}
               referrerPolicy="no-referrer"
-              className="w-full h-auto object-cover"
+              className="w-full h-auto object-cover object-top"
             />
             <div className="border-t border-slate-100 bg-slate-50 p-5">
               <div className="font-display text-base font-bold text-slate-900">
@@ -62,12 +92,61 @@ export function AboutDoctorPage({lang, onNavigate}: AboutDoctorPageProps) {
                   ? 'أخصائي أول طب الأسرة · البورد الأردني · معتمد SCFHS'
                   : 'Senior Specialist in Family Medicine · Jordanian Board · SCFHS Certified'}
               </div>
-              <div className="mt-3 flex flex-wrap gap-3 border-t border-slate-200 pt-3 text-xs text-slate-600">
-                <span>{lang === 'ar' ? 'الرياض، السعودية' : 'Riyadh, Saudi Arabia'}</span>
-                <span aria-hidden="true">·</span>
-                <span>{lang === 'ar' ? 'عمّان، الأردن' : 'Amman, Jordan'}</span>
-                <span aria-hidden="true">·</span>
-                <span>{lang === 'ar' ? 'استشارات أونلاين' : 'Online Telehealth'}</span>
+              <div className="mt-4 grid grid-cols-1 gap-2 border-t border-slate-200 pt-4 sm:grid-cols-2">
+                <a
+                  href={DOCTOR_YOUTUBE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-rose-200 bg-white px-3 py-2 text-xs font-semibold text-rose-700 hover:bg-rose-50"
+                >
+                  <Youtube className="h-4 w-4" />
+                  <span>{lang === 'ar' ? 'قناة اليوتيوب' : 'YouTube Channel'}</span>
+                </a>
+                <a
+                  href={DOCTOR_INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-pink-200 bg-white px-3 py-2 text-xs font-semibold text-pink-700 hover:bg-pink-50"
+                >
+                  <Instagram className="h-4 w-4" />
+                  <span>{lang === 'ar' ? 'إنستغرام' : 'Instagram'}</span>
+                </a>
+                <a
+                  href={DOCTOR_TIKTOK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-100"
+                >
+                  <TikTokIcon className="h-4 w-4" />
+                  <span>{lang === 'ar' ? 'تيك توك' : 'TikTok'}</span>
+                </a>
+                <a
+                  href={DOCTOR_BUSINESS_CARD_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-sky-200 bg-white px-3 py-2 text-xs font-semibold text-[#0B3C5D] hover:bg-sky-50"
+                >
+                  <IdCard className="h-4 w-4" />
+                  <span>{lang === 'ar' ? 'بطاقة الطبيب الرقمية' : 'Digital Business Card'}</span>
+                </a>
+                <a
+                  href={CLINIC_KSA_WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-emerald-200 bg-white px-3 py-2 text-xs font-semibold text-emerald-800 hover:bg-emerald-50"
+                >
+                  <MessageCircle className="h-3.5 w-3.5" />
+                  <span dir="ltr">+966570117358</span>
+                </a>
+                <a
+                  href={CLINIC_WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-emerald-200 bg-white px-3 py-2 text-xs font-semibold text-emerald-800 hover:bg-emerald-50"
+                >
+                  <MessageCircle className="h-3.5 w-3.5" />
+                  <span dir="ltr">+962785483349</span>
+                </a>
               </div>
             </div>
           </div>

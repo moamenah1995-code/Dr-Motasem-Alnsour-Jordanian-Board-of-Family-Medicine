@@ -9,6 +9,17 @@ import {GoogleGenAI, Type} from '@google/genai';
 import {MEDICAL_SERVICES} from './src/data/servicesData.ts';
 import {MEDICAL_ARTICLES} from './src/data/knowledgeData.ts';
 import {INITIAL_REVIEWS} from './src/data/reviewsData.ts';
+import {COMMON_MEDICAL_FAQS} from './src/data/faqData.ts';
+import {
+  CLINIC_DIRECT_PHONE,
+  CLINIC_EMAIL,
+  CLINIC_KSA_WHATSAPP_DISPLAY,
+  CLINIC_WHATSAPP_DISPLAY,
+  DOCTOR_BUSINESS_CARD_URL,
+  DOCTOR_CHAT_FAQ_ANSWERS,
+  DOCTOR_DIRECT_CONTACT_NOTE,
+  DOCTOR_YOUTUBE_URL,
+} from './src/data/doctorChatKnowledge.ts';
 import type {AppointmentConfirmation, ConsultationMode, PatientReview} from './src/types/medical.ts';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -240,17 +251,17 @@ app.get('/api/health', (_req, res) => {
   res.json({ok: true});
 });
 
-// Available appointment slots
+// Available appointment slots (Online Telehealth Only)
 app.get('/api/appointments/availability', (req, res) => {
-  const mode = req.query.mode;
   const date = typeof req.query.date === 'string' ? req.query.date : '';
 
-  if (!isValidMode(mode) || !isValidDateString(date)) {
-    res.status(400).json({error: 'Invalid mode or date format (YYYY-MM-DD required).'});
+  if (!isValidDateString(date)) {
+    res.status(400).json({error: 'Invalid date format (YYYY-MM-DD required).'});
     return;
   }
 
-  const allSlots = TIME_SLOTS_BY_MODE[mode];
+  const mode: ConsultationMode = 'online';
+  const allSlots = TIME_SLOTS_BY_MODE.online;
   const slots = allSlots.map((slot) => {
     const key = `${mode}:${date}:${slot}`;
     return {
@@ -262,10 +273,10 @@ app.get('/api/appointments/availability', (req, res) => {
   res.json({mode, date, slots});
 });
 
-// Create appointment booking
+// Create appointment booking (Online Telehealth Only)
 app.post('/api/appointments', async (req, res) => {
   const body = req.body ?? {};
-  const mode = body.mode;
+  const mode: ConsultationMode = 'online';
   const serviceId = sanitizeString(body.serviceId, 64);
   const date = sanitizeString(body.date, 16);
   const timeSlot = sanitizeString(body.timeSlot, 16);
@@ -274,8 +285,8 @@ app.post('/api/appointments', async (req, res) => {
   const email = sanitizeString(body.email, 120);
   const notes = sanitizeString(body.notes, 500);
 
-  if (!isValidMode(mode)) {
-    res.status(400).json({error: 'Invalid consultation mode.'});
+  if (body.mode && body.mode !== 'online') {
+    res.status(400).json({error: 'In-clinic appointments are disabled; only Online Consultations are available.'});
     return;
   }
   const matchedService = MEDICAL_SERVICES.find((s) => s.id === serviceId);
@@ -473,12 +484,17 @@ app.post('/api/ai-assistant', async (req, res) => {
   });
 
   const serviceCatalogSummary = MEDICAL_SERVICES.map(
-    (s) => `${s.id}: ${s.title.en} / ${s.title.ar} (modes: ${s.modes.join(',')})`
+    (s) => `${s.id}: ${s.title.en} / ${s.title.ar} (modes: ${s.modes.join(',')}) — ${s.shortDesc[lang]}`
   ).join('\n');
 
   const articleCatalogSummary = MEDICAL_ARTICLES.map(
     (a) => `${a.id}: ${a.title.en} / ${a.title.ar} [category: ${a.categoryId}]`
   ).join('\n');
+
+  const doctorFaqKnowledge = [
+    ...DOCTOR_CHAT_FAQ_ANSWERS.map((q) => `Q: ${q.question[lang]}\nDr. Motasem's Official Answer: ${q.answer[lang]}`),
+    ...COMMON_MEDICAL_FAQS.map((f) => `Q: ${f.question[lang]}\nDr. Motasem's Official Answer: ${f.answer[lang]}`),
+  ].join('\n\n');
 
   const conversationContext = rawHistory
     .map((h: unknown) => {
@@ -491,18 +507,34 @@ app.post('/api/ai-assistant', async (req, res) => {
     .filter(Boolean)
     .join('\n');
 
-  const systemInstruction = `You are the Medical Knowledge & Care Navigation Assistant for Dr. Motasem Alnsour (د. معتصم النسور), Senior Specialist in Family Medicine (Jordanian Board of Family Medicine & SCFHS Certified), practicing in-clinic in Riyadh (Saudi Arabia) and Jordan, plus Online Telehealth.
+  const systemInstruction = `You are the official Medical Consultation & Clinic Assistant for Dr. Motasem Alnsour (د. معتصم النسور), Senior Specialist in Family Medicine (Jordanian Board of Family Medicine & SCFHS Certified; clinical experience at Dr. Sulaiman Al Habib Hospital in Riyadh and Jordanian Ministry of Health).
+
+PRACTICE & BOOKING FACTS (use these exact real details whenever asked about appointments, online consults, or channels):
+- Online Consultations Only: Website appointment booking is EXCLUSIVELY for Online Telehealth Consultations ("online"). In-clinic visits are NOT booked on this website.
+- Online Telehealth Consultation ("online"): Available DAILY worldwide via video or WhatsApp/audio for general consultations, reading & interpreting lab results/imaging reports (lab-results-interpretation), ordering targeted lab work (lab-tests-analysis), chronic disease management (diabetes, hypertension, cholesterol, thyroid), specialist referrals, weight/smoking cessation programs, and second medical opinions.
+- Direct No-Login Booking: Patients book directly on this website WITHOUT creating an account or logging in. Submitting the form sends their booking straight to Dr. Motasem's email (${CLINIC_EMAIL}) and clinic WhatsApp lines.
+- Official Contact & Social Channels:
+  - Saudi Arabia WhatsApp: ${CLINIC_KSA_WHATSAPP_DISPLAY} (https://wa.me/966570117358)
+  - Jordan WhatsApp: ${CLINIC_WHATSAPP_DISPLAY} (https://wa.me/962785483349)
+  - Direct Call Phone: ${CLINIC_DIRECT_PHONE}
+  - Clinic Email: ${CLINIC_EMAIL}
+  - Official YouTube Channel: ${DOCTOR_YOUTUBE_URL}
+  - Digital Business Card (HiHello): ${DOCTOR_BUSINESS_CARD_URL}
+
+DR. MOTASEM'S REAL VERIFIED ANSWERS FOR COMMON QUESTIONS:
+${doctorFaqKnowledge}
 
 RULES:
-1. Respond strictly in ${lang === 'ar' ? 'Arabic (Clear, calm, empathetic medical Arabic)' : 'English (Clear, calm, empathetic clinical English)'}.
-2. Provide evidence-based general medical education inspired by Mayo Clinic / Cleveland Clinic standards. Never diagnose definitively or prescribe controlled medications. Always remind the patient gently that this guidance supports but does not replace a clinical consultation.
-3. Red-flag triage: If the user mentions crushing chest pain, severe shortness of breath, sudden weakness/numbness, fainting, severe bleeding, or infant <3 months with fever >=38C, set urgencyLevel to "urgent" and clearly advise immediate emergency care.
-4. Select 1 to 3 most relevant service IDs strictly from this list:
+1. Respond strictly in ${lang === 'ar' ? 'Arabic (Clear, calm, empathetic medical Arabic reflecting Dr. Motasem Alnsour’s voice)' : 'English (Clear, calm, empathetic clinical English reflecting Dr. Motasem Alnsour’s voice)'}.
+2. When the user asks about appointments/booking, make sure to clarify that bookings are exclusively Online Consultations (no in-clinic bookings), explain how to book directly without login, and share the verified facts above.
+3. For every medical or health-related question: provide accurate, evidence-based clinical education (never fabricate prescriptions or definitive diagnoses without examination), AND explicitly state at the end of your reply that for diagnostic accuracy and greater personalized benefit, it is best to contact Dr. Motasem Alnsour directly (e.g. "${DOCTOR_DIRECT_CONTACT_NOTE[lang]}").
+4. Red-flag triage: If the user mentions crushing chest pain, severe shortness of breath, sudden weakness/numbness, fainting, severe bleeding, or infant <3 months with fever >=38C, set urgencyLevel to "urgent" and clearly advise immediate emergency care.
+5. Select 1 to 3 most relevant service IDs strictly from this list:
 ${serviceCatalogSummary}
-5. Select 1 to 3 most relevant article IDs strictly from this list:
+6. Select 1 to 3 most relevant article IDs strictly from this list:
 ${articleCatalogSummary}
-6. Recommend whether they should book an appointment (shouldBook: true/false) and the best mode ("online", "riyadh", or "jordan") if inferable.
-7. Keep reply concise, structured, and helpful (around 80-160 words).`;
+7. Set isMedicalQuestion to true if the query involves symptoms, illnesses, lab tests, medications, prevention, or health advice; set shouldBook to true for medical questions, lab interpretation, online consults, or booking inquiries, and always set recommendedMode to "online".
+8. Keep reply clear, structured, and around 90-180 words.`;
 
   const prompt = conversationContext
     ? `Previous context:\n${conversationContext}\n\nCurrent patient question:\n${message}`
@@ -520,7 +552,7 @@ ${articleCatalogSummary}
           properties: {
             reply: {
               type: Type.STRING,
-              description: 'Helpful, medically sound response in the requested language.',
+              description: 'Helpful, authentic response grounded in Dr. Motasem Alnsour’s practice in the requested language.',
             },
             urgencyLevel: {
               type: Type.STRING,
@@ -538,14 +570,22 @@ ${articleCatalogSummary}
             },
             shouldBook: {
               type: Type.BOOLEAN,
-              description: 'Whether booking a consultation with Dr. Motasem is recommended.',
+              description: 'Whether booking or contacting Dr. Motasem is recommended.',
             },
             recommendedMode: {
               type: Type.STRING,
-              description: 'Suggested mode: online, riyadh, or jordan.',
+              description: 'Always online.',
+            },
+            isMedicalQuestion: {
+              type: Type.BOOLEAN,
+              description: 'True if the question relates to medical symptoms, lab tests, diseases, or clinical advice.',
+            },
+            doctorAdviceNote: {
+              type: Type.STRING,
+              description: 'Clear reminder in the requested language advising direct contact with Dr. Motasem for diagnostic accuracy and maximum benefit.',
             },
           },
-          required: ['reply', 'urgencyLevel', 'suggestedServiceIds', 'suggestedArticleIds', 'shouldBook'],
+          required: ['reply', 'urgencyLevel', 'suggestedServiceIds', 'suggestedArticleIds', 'shouldBook', 'isMedicalQuestion', 'doctorAdviceNote'],
         },
       },
     });
@@ -558,6 +598,8 @@ ${articleCatalogSummary}
       suggestedArticleIds?: string[];
       shouldBook?: boolean;
       recommendedMode?: string;
+      isMedicalQuestion?: boolean;
+      doctorAdviceNote?: string;
     };
 
     const validServiceIds = new Set(MEDICAL_SERVICES.map((s) => s.id));
@@ -566,10 +608,20 @@ ${articleCatalogSummary}
     const urgencyLevel =
       parsed.urgencyLevel === 'urgent' || parsed.urgencyLevel === 'soon' ? parsed.urgencyLevel : 'routine';
 
-    const recommendedMode = isValidMode(parsed.recommendedMode) ? parsed.recommendedMode : 'online';
+    const recommendedMode: ConsultationMode = 'online';
+    const isMedicalQuestion = parsed.isMedicalQuestion !== false;
+    const doctorAdviceNote =
+      typeof parsed.doctorAdviceNote === 'string' && parsed.doctorAdviceNote.trim().length > 10
+        ? parsed.doctorAdviceNote.trim()
+        : DOCTOR_DIRECT_CONTACT_NOTE[lang];
+
+    let finalReply = (parsed.reply || '').trim();
+    if (isMedicalQuestion && finalReply && !finalReply.includes(lang === 'ar' ? 'التواصل' : 'contact')) {
+      finalReply = `${finalReply}\n\n${DOCTOR_DIRECT_CONTACT_NOTE[lang]}`;
+    }
 
     res.json({
-      reply: parsed.reply || '',
+      reply: finalReply,
       urgencyLevel,
       suggestedServiceIds: Array.isArray(parsed.suggestedServiceIds)
         ? parsed.suggestedServiceIds.filter((id) => validServiceIds.has(id)).slice(0, 3)
@@ -577,8 +629,10 @@ ${articleCatalogSummary}
       suggestedArticleIds: Array.isArray(parsed.suggestedArticleIds)
         ? parsed.suggestedArticleIds.filter((id) => validArticleIds.has(id)).slice(0, 3)
         : [],
-      shouldBook: Boolean(parsed.shouldBook),
+      shouldBook: parsed.shouldBook !== false,
       recommendedMode,
+      isMedicalQuestion,
+      doctorAdviceNote,
     });
   } catch (err) {
     console.error('Gemini API error:', err);

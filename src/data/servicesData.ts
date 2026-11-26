@@ -26,21 +26,21 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       {ar: 'آلام المفاصل والعضلات والحساسية الموسمية', en: 'Musculoskeletal pain and seasonal allergies'},
     ],
     steps: [
-      {ar: 'اختيار الاستشارة (حضوري في الرياض/الأردن أو أونلاين)', en: 'Select consultation mode (Riyadh, Jordan, or Online)'},
+      {ar: 'اختيار موعد الاستشارة أونلاين المناسب لك', en: 'Select your convenient Online Consultation slot'},
       {ar: 'تقييم الأعراض والتاريخ الدوائي والعائلي', en: 'Comprehensive symptom, medication, and family history review'},
-      {ar: 'استلام الخطة العلاجية وتوصيات المتابعة', en: 'Receive treatment plan, prescriptions, and follow-up guidance'},
+      {ar: 'استلام الخطة العلاجية وتوصيات المتابعة', en: 'Receive treatment plan, guidance, and follow-up roadmap'},
     ],
     faqs: [
       {
-        question: {ar: 'هل يمكن تقييم الأعراض العامة عبر الاستشارة عن بعد؟', en: 'Can general symptoms be evaluated via online consultation?'},
+        question: {ar: 'هل يمكن تقييم الأعراض العامة عبر الاستشارة أونلاين؟', en: 'Can general symptoms be evaluated via online consultation?'},
         answer: {
-          ar: 'نعم، في معظم الحالات المستقرة يمكن التقييم وطلب الفحوصات ووصف العلاج، أما الحالات التي تتطلب فحصاً سريرياً مباشراً فيتم توجيهها للعيادة فوراً.',
-          en: 'Yes, most non-emergency complaints can be assessed online with lab orders and care plans; cases requiring hands-on physical examination are scheduled for in-clinic assessment.',
+          ar: 'نعم، في معظم الحالات يتم التقييم الطبي الدقيق عبر الاستشارة أونلاين وطلب الفحوصات اللازمة ووضع الخطة العلاجية، أما الحالات الإسعافية الخطيرة فيُوجّه المريض للطوارئ فوراً.',
+          en: 'Yes, most acute and general complaints can be thoroughly evaluated online with targeted lab orders and clear care plans; red-flag emergency symptoms are directed immediately to urgent emergency care.',
         },
       },
     ],
     durationMinutes: 25,
-    modes: ['online', 'riyadh', 'jordan'],
+    modes: ['online'],
   },
   {
     id: 'chronic-disease-management',
@@ -81,7 +81,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       },
     ],
     durationMinutes: 30,
-    modes: ['online', 'riyadh', 'jordan'],
+    modes: ['online'],
   },
   {
     id: 'employee-health-clinic',
@@ -122,7 +122,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       },
     ],
     durationMinutes: 25,
-    modes: ['riyadh', 'jordan', 'online'],
+    modes: ['online'],
   },
   {
     id: 'urgent-clinic',
@@ -139,7 +139,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       en: 'Same-day medical evaluation for sudden symptoms such as high fever, ear or throat infections, acute abdominal discomfort, dehydration, or moderate allergic reactions, with strict triage for emergency red flags.',
     },
     features: [
-      {ar: 'مواعيد سريعة في نفس اليوم حضورياً أو عن بعد للفرز', en: 'Same-day appointments in-clinic or rapid online triage'},
+      {ar: 'مواعيد سريعة في نفس اليوم أونلاين للفرز والتقييم', en: 'Same-day rapid online triage and acute guidance'},
       {ar: 'تخفيف العبء عن أقسام الطوارئ للحالات المتوسطة', en: 'Faster alternative to crowded ERs for non-critical acute care'},
       {ar: 'تحويل فوري للمستشفى عند وجود أي علامات خطورة', en: 'Immediate hospital escalation if red-flag signs are present'},
     ],
@@ -163,7 +163,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       },
     ],
     durationMinutes: 20,
-    modes: ['riyadh', 'jordan', 'online'],
+    modes: ['online'],
   },
   {
     id: 'periodic-checkups',
@@ -204,7 +204,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       },
     ],
     durationMinutes: 30,
-    modes: ['riyadh', 'jordan', 'online'],
+    modes: ['online'],
   },
   {
     id: 'preventive-screenings',
@@ -245,7 +245,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       },
     ],
     durationMinutes: 25,
-    modes: ['online', 'riyadh', 'jordan'],
+    modes: ['online'],
   },
   {
     id: 'lab-tests-analysis',
@@ -286,7 +286,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       },
     ],
     durationMinutes: 20,
-    modes: ['online', 'riyadh', 'jordan'],
+    modes: ['online'],
   },
   {
     id: 'lab-results-interpretation',
@@ -313,7 +313,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       {ar: 'الحصول على رأي طبي ثانٍ مطمئن', en: 'Seeking a clear, reassuring second clinical opinion'},
     ],
     steps: [
-      {ar: 'حجز استشارة تفسير النتائج (أونلاين أو حضوري)', en: 'Book Lab Interpretation (Online or In-Clinic)'},
+      {ar: 'حجز استشارة تفسير النتائج أونلاين', en: 'Book Online Lab Interpretation'},
       {ar: 'مشاركة التقارير والقيم خلال الجلسة', en: 'Share reports and clinical background during consultation'},
       {ar: 'الحصول على ملخص التفسير وخطة الإجراء التالي', en: 'Receive plain-language explanation and action plan'},
     ],
@@ -327,7 +327,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       },
     ],
     durationMinutes: 20,
-    modes: ['online', 'riyadh', 'jordan'],
+    modes: ['online'],
   },
   {
     id: 'elderly-health-care',
@@ -362,13 +362,13 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       {
         question: {ar: 'هل يمكن متابعة الوالدين كبار السن عبر الاستشارة المرئية بمشاركة أحد الأبناء؟', en: 'Can an adult child join an online consultation with elderly parents?'},
         answer: {
-          ar: 'نعم، نرحب بحضور أحد أفراد الأسرة خلال الاستشارة الحضورية أو المرئية لتسهيل المتابعة وضمان وضوح الخطة الدوائية.',
-          en: 'Yes, family caregivers are warmly welcomed in both in-clinic and online visits to coordinate care safely.',
+          ar: 'نعم، نرحب بحضور أحد أفراد الأسرة خلال الاستشارة المرئية أونلاين لتسهيل المتابعة وضمان وضوح الخطة الدوائية.',
+          en: 'Yes, family caregivers are warmly welcomed during online video consultations to coordinate senior care safely.',
         },
       },
     ],
     durationMinutes: 35,
-    modes: ['riyadh', 'jordan', 'online'],
+    modes: ['online'],
   },
   {
     id: 'womens-health',
@@ -409,7 +409,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       },
     ],
     durationMinutes: 30,
-    modes: ['online', 'riyadh', 'jordan'],
+    modes: ['online'],
   },
   {
     id: 'child-health',
@@ -450,7 +450,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       },
     ],
     durationMinutes: 25,
-    modes: ['riyadh', 'jordan', 'online'],
+    modes: ['online'],
   },
   {
     id: 'preventive-programs',
@@ -491,7 +491,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       },
     ],
     durationMinutes: 30,
-    modes: ['online', 'riyadh', 'jordan'],
+    modes: ['online'],
   },
   {
     id: 'specialist-referral',
@@ -532,7 +532,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       },
     ],
     durationMinutes: 25,
-    modes: ['online', 'riyadh', 'jordan'],
+    modes: ['online'],
   },
   {
     id: 'remote-telemedicine',
@@ -580,29 +580,29 @@ export const MEDICAL_SERVICES: MedicalService[] = [
     number: '15',
     category: 'telehealth-aesthetics',
     title: {ar: 'خدمات الفيلر والبوتوكس', en: 'Filler & Botox Services'},
-    subtitle: {ar: 'طب تجميلي غير جراحي بنتائج طبيعية ومعايير أمان طبية', en: 'Safe, Natural-Looking Non-Surgical Medical Aesthetics'},
+    subtitle: {ar: 'استشارة تجميلية طبية أونلاين للتقييم والتخطيط الآمن', en: 'Online Medical Aesthetics Consultation & Safety Assessment'},
     shortDesc: {
-      ar: 'إجراءات حقن البوتوكس العلاجي والتجميلي والفيلر الطبي بمواد معتمدة مع الحفاظ على تعابير الوجه الطبيعية.',
-      en: 'Physician-administered medical Botox and dermal fillers using approved products for balanced, natural facial harmony.',
+      ar: 'استشارة طبية أونلاين لتقييم ملامح الوجه ووضع خطة البوتوكس والفيلر المناسبة بأمان ونتائج طبيعية.',
+      en: 'Online physician consultation for facial assessment and personalized natural Botox and dermal filler planning.',
     },
     detailedDesc: {
-      ar: 'تُجرى جلسات الفيلر والبوتوكس تحت إشراف طبي مباشر بعد تقييم تشريح الوجه والتاريخ الطبي والحساسية، مع استخدام منتجات أصلية معتمدة لضمان نتائج متوازنة وطبيعية بعيداً عن المبالغة، إضافة إلى البوتوكس العلاجي للصداع التوتري والتعرق الزائد.',
-      en: 'Administered under strict medical supervision following facial anatomy and medical safety assessment. We use certified medical-grade products to achieve natural facial rejuvenation as well as therapeutic Botox for hyperhidrosis and chronic tension/migraine support.',
+      ar: 'تبدأ خدمات الطب التجميلي باستشارة طبية دقيقة أونلاين مع د. معتصم لتقييم تشريح الوجه والتاريخ الطبي والتحسس وتحديد الإجراء والمواد الأنسب لتحقيق نتائج متوازنة وطبيعية بعيداً عن المبالغة.',
+      en: 'Medical aesthetic care starts with an online physician consultation to review facial anatomy, medical history, and realistic goals for natural-looking Botox and dermal filler plans.',
     },
     features: [
-      {ar: 'استخدام مواد أصلية معتمدة عالمياً ومعايير تعقيم صارمة', en: 'FDA/SFDA-approved authentic products and sterile medical protocols'},
-      {ar: 'نتائج طبيعية متناغمة تحافظ على ملامحك الأصلية', en: 'Subtle, natural results preserving authentic expression'},
-      {ar: 'يشمل البوتوكس العلاجي لفرط التعرق وصرير الأسنان', en: 'Includes therapeutic Botox for hyperhidrosis and jaw tension'},
+      {ar: 'تقييم طبي مسبق للوجه وموانع الاستخدام أونلاين', en: 'Pre-treatment facial and medical safety screening online'},
+      {ar: 'خطة واضحة بنتائج طبيعية متناغمة', en: 'Subtle, natural-looking treatment planning'},
+      {ar: 'يشمل استشارات البوتوكس العلاجي لفرط التعرق وشد الفك', en: 'Covers therapeutic Botox guidance for hyperhidrosis and jaw tension'},
     ],
     suitableCases: [
-      {ar: 'التخفيف الآمن لخطوط الجبهة وحول العينين (البوتوكس)', en: 'Dynamic forehead and periorbital lines (Botox)'},
-      {ar: 'تعويض فقدان الحجم وتحديد الملامح بالفيلر الطبي', en: 'Natural volume restoration and facial contouring (Dermal Fillers)'},
-      {ar: 'علاج فرط التعرق الإبطي والراحي وشد الفك', en: 'Hyperhidrosis management and masseter relaxation'},
+      {ar: 'التقييم المبدئي لخطوط الجبهة وحول العينين (البوتوكس)', en: 'Assessment for dynamic forehead and periorbital lines (Botox)'},
+      {ar: 'استشارات تعويض الحجم وتحديد الملامح بالفيلر الطبي', en: 'Planning natural volume restoration (Dermal Fillers)'},
+      {ar: 'تقييم حالات فرط التعرق الإبطي والراحي وشد الفك', en: 'Evaluation for hyperhidrosis and masseter relaxation'},
     ],
     steps: [
-      {ar: 'استشارة وتقييم تشريحي للوجه وتاريخ التحسس', en: 'Pre-procedure facial assessment and medical screening'},
-      {ar: 'تطبيق الإجراء بدقة عالية وراحة تامة بالعيادة', en: 'Precision in-clinic procedure with comfort measures'},
-      {ar: 'تعليمات ما بعد الجلسة ومراجعة النتيجة بعد أسبوعين', en: 'Post-care instructions and 2-week follow-up check'},
+      {ar: 'حجز استشارة التقييم التجميلي أونلاين', en: 'Book Online Medical Aesthetics Consultation'},
+      {ar: 'تقييم الحالة وتاريخ التحسس وتحديد الخطة الأنسب', en: 'Evaluate medical history and tailored aesthetic plan'},
+      {ar: 'استلام التوصيات الكاملة وتوجيه الخطوة التنفيذية', en: 'Receive comprehensive plan and follow-up recommendations'},
     ],
     faqs: [
       {
@@ -614,6 +614,6 @@ export const MEDICAL_SERVICES: MedicalService[] = [
       },
     ],
     durationMinutes: 35,
-    modes: ['riyadh', 'jordan'],
+    modes: ['online'],
   },
 ];

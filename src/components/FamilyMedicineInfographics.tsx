@@ -1,5 +1,6 @@
-import {Activity, ArrowLeft, ArrowRight, CheckCircle2, HeartHandshake, ShieldCheck, Stethoscope, Users} from 'lucide-react';
+import {Activity, ArrowLeft, ArrowRight, CheckCircle2, ChevronDown, HeartHandshake, ShieldCheck, Stethoscope, Users} from 'lucide-react';
 import {useState} from 'react';
+import {COMMON_MEDICAL_FAQS} from '../data/faqData';
 import {UI_COPY} from '../data/translations';
 import type {Lang, PageId} from '../types/medical';
 
@@ -167,6 +168,7 @@ interface FamilyMedicinePageProps {
 export function FamilyMedicinePage({lang, onNavigate}: FamilyMedicinePageProps) {
   const t = UI_COPY[lang].familyMedicinePage;
   const ArrowIcon = lang === 'ar' ? ArrowLeft : ArrowRight;
+  const [openFaqId, setOpenFaqId] = useState<string | null>(COMMON_MEDICAL_FAQS[0].id);
 
   return (
     <div className="mx-auto max-w-[1200px] px-4 py-12 sm:px-6">
@@ -303,6 +305,40 @@ export function FamilyMedicinePage({lang, onNavigate}: FamilyMedicinePageProps) 
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* Common Medical Questions (Synced with Schema.org FAQPage) */}
+      <div className="mt-12">
+        <div className="max-w-2xl">
+          <div className="text-xs font-semibold text-[#0369A1]">
+            {lang === 'ar' ? 'الأسئلة الطبية الشائعة' : 'Common Medical Questions'}
+          </div>
+          <h2 className="font-display mt-1.5 text-2xl font-bold text-slate-900">
+            {lang === 'ar' ? 'إجابات موثوقة حول طب الأسرة والحجز أونلاين' : 'Frequently Asked Questions About Family Medicine & Online Visits'}
+          </h2>
+        </div>
+
+        <div className="mt-6 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white">
+          {COMMON_MEDICAL_FAQS.map((faq) => {
+            const isOpen = openFaqId === faq.id;
+            return (
+              <div key={faq.id}>
+                <button
+                  type="button"
+                  aria-expanded={isOpen}
+                  onClick={() => setOpenFaqId(isOpen ? null : faq.id)}
+                  className="flex w-full cursor-pointer items-center justify-between gap-4 px-6 py-4 text-start text-sm font-bold text-slate-900 hover:bg-slate-50 sm:text-base"
+                >
+                  <span>{faq.question[lang]}</span>
+                  <ChevronDown className={`h-4 w-4 shrink-0 text-slate-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {isOpen && (
+                  <div className="px-6 pb-5 text-sm leading-relaxed text-slate-600">{faq.answer[lang]}</div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

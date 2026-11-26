@@ -21,12 +21,12 @@ export const COMMON_MEDICAL_FAQS: MedicalFaqItem[] = [
   {
     id: 'faq-booking-modes',
     question: {
-      ar: 'كيف يمكنني حجز موعد مع د. معتصم النسور؟ وهل تتوفر استشارات أونلاين وحضورية؟',
-      en: 'How do I book an appointment with Dr. Motasem Alnsour, and are online and in-clinic visits available?',
+      ar: 'كيف يمكنني حجز موعد استشارة طبية أونلاين مع د. معتصم النسور؟',
+      en: 'How do I book an online consultation with Dr. Motasem Alnsour?',
     },
     answer: {
-      ar: 'يمكنك الحجز مباشرة من الموقع دون الحاجة لتسجيل دخول، مع اختيار الاستشارة عن بعد (أونلاين) أو الحضور الشخصي في عيادة الرياض (السعودية) أو عيادة عمّان (الأردن)، وإرسال بيانات الموعد مباشرة عبر واتساب العيادة (+962785483349) والبريد الإلكتروني.',
-      en: 'You can book directly on the website without creating an account by choosing Online Telehealth, Riyadh Clinic (Saudi Arabia), or Amman Clinic (Jordan), and send your confirmation directly via clinic WhatsApp (+962785483349) and email.',
+      ar: 'يتم حجز المواعيد في الموقع للاستشارات الطبية أونلاين فقط (عن بعد) دون الحاجة لتسجيل دخول، وذلك للمرضى في السعودية والأردن وكافة الدول. بعد اختيار الوقت المناسب وتعبئة بياناتك، تُرسل التفاصيل مباشرة عبر واتساب السعودية (+966570117358) أو واتساب الأردن (+962785483349) والبريد الإلكتروني للطبيب.',
+      en: 'Appointments on the platform are booked exclusively for Online Medical Consultations without requiring account login, serving patients in Saudi Arabia, Jordan, and worldwide. After selecting a slot and entering your details, your booking is dispatched via Saudi WhatsApp (+966570117358), Jordan WhatsApp (+962785483349), and email.',
     },
   },
   {
